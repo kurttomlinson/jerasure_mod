@@ -68,7 +68,7 @@ enum Coding_Technique method;
 int is_prime(int w);
 void ctrl_bs_handler(int dummy);
 
-char *homepath = "/home/kurt";
+char *homepath = "/home/kurt/";
 
 static void mkpath(const char *dir) {
         char tmp[256];
@@ -336,15 +336,15 @@ int main (int argc, char **argv) {
 	curdir = (char*)malloc(sizeof(char)*1000);	
 	
 	metadir = (char*)malloc(sizeof(char)*1000);
-	strcpy(metadir, homepath); // "/home/kurt"
-	strcat(metadir, "/SRDFS");
+	strcpy(metadir, homepath); // "/home/kurt/"
+	strcat(metadir, "SRDFS");
 	strcat(metadir, argv[8]);
 	fprintf(stderr, "%s\n", metadir);
 	mkpath(metadir);
 	
 	scatterdir = (char*)malloc(sizeof(char)*1000);
-	strcpy(scatterdir, homepath); // "/home/kurt"
-	strcat(scatterdir, "/SRDFS/Scatter");
+	strcpy(scatterdir, homepath); // "/home/kurt/"
+	strcat(scatterdir, "SRDFS/Scatter/");
 	fprintf(stderr, "%s\n", scatterdir);
 	mkpath(scatterdir);
 
@@ -360,11 +360,11 @@ int main (int argc, char **argv) {
 		}
 	
 		/* Create Coding directory */
-		i = mkdir("Coding", S_IRWXU);
+/* 		i = mkdir("Coding", S_IRWXU);
 		if (i == -1 && errno != EEXIST) {
 			fprintf(stderr, "Unable to create Coding directory.\n");
 			exit(0);
-		}
+		} */
 	
 		/* Determine original size of file */
 		stat(argv[1], &status);	
@@ -556,7 +556,7 @@ int main (int argc, char **argv) {
 			if (fp == NULL) {
 				bzero(data[i-1], blocksize);
  			} else {
-				sprintf(fname, "%s/Coding/%s_k%0*d%s", curdir, s1, md, i, s2);
+				sprintf(fname, "%s%s_k%0*d%s", scatterdir, s1, md, i, s2);
 				if (n == 1) {
 					fp2 = fopen(fname, "wb");
 				}
@@ -572,7 +572,7 @@ int main (int argc, char **argv) {
 			if (fp == NULL) {
 				bzero(data[i-1], blocksize);
  			} else {
-				sprintf(fname, "%s/Coding/%s_m%0*d%s", curdir, s1, md, i, s2);
+				sprintf(fname, "%s%s_m%0*d%s", scatterdir, s1, md, i, s2);
 				if (n == 1) {
 					fp2 = fopen(fname, "wb");
 				}
@@ -596,7 +596,7 @@ int main (int argc, char **argv) {
 
 	/* Create metadata file */
         if (fp != NULL) {
-		sprintf(fname, "%s/Coding/%s_meta.txt", curdir, s1);
+		sprintf(fname, "%s%s_meta.txt", metadir, s1);
 		fp2 = fopen(fname, "wb");
 		fprintf(fp2, "%s\n", argv[1]);
 		fprintf(fp2, "%d\n", size);

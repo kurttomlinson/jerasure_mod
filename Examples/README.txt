@@ -19,3 +19,4 @@ move metadata to "~/SRDFS/Metadata/foo/bar_meta.txt"
 
 IMPORTANT
 1)Make sure to update the homepath variable in encoder.c
+2)All directory variables are expected to end with a slash (/)
