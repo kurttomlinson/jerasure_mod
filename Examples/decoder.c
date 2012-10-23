@@ -64,6 +64,8 @@ int readins, n;
 /* Function prototype */
 void ctrl_bs_handler(int dummy);
 
+char *homedir = "/home/kurt/";
+
 int main (int argc, char **argv) {
 	FILE *fp;				// File pointer
 
@@ -93,6 +95,7 @@ int main (int argc, char **argv) {
 	char *fname;
 	int md;
 	char *curdir;
+	char *metapath;
 
 	/* Used to time decoding */
 	struct timeval t1, t2, t3, t4;
@@ -118,6 +121,8 @@ int main (int argc, char **argv) {
 	curdir = (char *)malloc(sizeof(char)*100);
 	getcwd(curdir, 100);
 	
+	metapath = (char *)malloc(sizeof(char)*100);
+	
 	/* Begin recreation of file names */
 	cs1 = (char*)malloc(sizeof(char)*strlen(argv[1]));
 	cs2 = strrchr(argv[1], '/');
@@ -137,8 +142,16 @@ int main (int argc, char **argv) {
 	strcpy(cs2, fname);
 	fname = (char *)malloc(sizeof(char*)*(100+strlen(argv[1])+10));
 
+	
 	/* Read in parameters from metadata file */
 	sprintf(fname, "%s/Coding/%s_meta.txt", curdir, cs1);
+	fprintf(stderr, "Metadata file: %s\n", argv[1]);
+	strcpy(fname, homedir);
+	strcat(fname, "SRDFS/Metadata");
+	strcat(fname, argv[1]);
+	strcat(fname, "_meta.txt");
+
+fprintf(stderr, "fname: %s\n", fname);
 
 	fp = fopen(fname, "rb");
 	temp = (char *)malloc(sizeof(char)*(strlen(argv[1])+10));
@@ -157,7 +170,7 @@ int main (int argc, char **argv) {
 	fscanf(fp, "%d", &tech);
 	method = tech;
 	fscanf(fp, "%d", &readins);
-	fclose(fp);	
+	fclose(fp);
 
 	/* Allocate memory */
 	erased = (int *)malloc(sizeof(int)*(k+m));
@@ -176,7 +189,7 @@ int main (int argc, char **argv) {
 		}
 		blocksize = buffersize/k;
 	}
-
+	
 	sprintf(temp, "%d", k);
 	md = strlen(temp);
 	gettimeofday(&t3, &tz);
@@ -224,7 +237,12 @@ int main (int argc, char **argv) {
 		numerased = 0;
 		/* Open files, check for erasures, read in data/coding */	
 		for (i = 1; i <= k; i++) {
-			sprintf(fname, "%s/Coding/%s_k%0*d%s", curdir, cs1, md, i, cs2);
+			sprintf(fname, "%s%s%s_k%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
+fprintf(stderr, "fname2: %s\n", fname);
+fprintf(stderr, "cs1: %s\n", cs1);
+//fprintf(stderr, "md: %d\n", md);
+//fprintf(stderr, "i: %d\n", i);
+fprintf(stderr, "cs2: %s\n\n", cs2);
 			fp = fopen(fname, "rb");
 			if (fp == NULL) {
 				erased[i-1] = 1;
@@ -247,7 +265,12 @@ int main (int argc, char **argv) {
 			}
 		}
 		for (i = 1; i <= m; i++) {
-			sprintf(fname, "%s/Coding/%s_m%0*d%s", curdir, cs1, md, i, cs2);
+			sprintf(fname, "%s%s%s_k%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
+fprintf(stderr, "fname3: %s\n", fname);
+fprintf(stderr, "cs1: %s\n", cs1);
+//fprintf(stderr, "md: %d\n", md);
+//fprintf(stderr, "i: %d\n", i);
+fprintf(stderr, "cs2: %s\n\n", cs2);
 				fp = fopen(fname, "rb");
 			if (fp == NULL) {
 				erased[k+(i-1)] = 1;
@@ -304,7 +327,12 @@ int main (int argc, char **argv) {
 		}
 	
 		/* Create decoded file */
-		sprintf(fname, "%s/Coding/%s_decoded%s", curdir, cs1, cs2);
+		sprintf(fname, "%s%s/%s%s", homedir, "SRDFS/Decoded", cs1, cs2);
+fprintf(stderr, "fname4: %s\n", fname);
+fprintf(stderr, "cs1: %s\n", cs1);
+//fprintf(stderr, "md: %d\n", md);
+//fprintf(stderr, "i: %d\n", i);
+fprintf(stderr, "cs2: %s\n\n", cs2);
 		if (n == 1) {
 			fp = fopen(fname, "wb");
 		}
@@ -347,6 +375,8 @@ int main (int argc, char **argv) {
 	free(coding);
 	free(erasures);
 	free(erased);
+	free(metapath);
+	free(curdir);
 	
 	/* Stop timing and print time */
 	gettimeofday(&t2, &tz);
