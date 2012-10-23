@@ -337,7 +337,7 @@ int main (int argc, char **argv) {
 	
 	metadir = (char*)malloc(sizeof(char)*1000);
 	strcpy(metadir, homepath); // "/home/kurt/"
-	strcat(metadir, "SRDFS");
+	strcat(metadir, "SRDFS/Metadata");
 	strcat(metadir, argv[8]);
 	fprintf(stderr, "%s\n", metadir);
 	mkpath(metadir);
@@ -596,7 +596,14 @@ int main (int argc, char **argv) {
 
 	/* Create metadata file */
         if (fp != NULL) {
-		sprintf(fname, "%s%s_meta.txt", metadir, s1);
+		
+	fprintf(stderr, "%s\n", metadir);
+	
+	fprintf(stderr, "%s\n", s1);
+	
+	fprintf(stderr, "%s\n", s2);
+	
+		sprintf(fname, "%s%s%s_meta.txt", metadir, s1,s2);
 		fp2 = fopen(fname, "wb");
 		fprintf(fp2, "%s\n", argv[1]);
 		fprintf(fp2, "%d\n", size);
@@ -614,6 +621,8 @@ int main (int argc, char **argv) {
 	free(fname);
 	free(block);
 	free(curdir);
+	free(metadir);
+	free(scatterdir);
 	
 	/* Calculate rate in MB/sec and print */
 	gettimeofday(&t2, &tz);
