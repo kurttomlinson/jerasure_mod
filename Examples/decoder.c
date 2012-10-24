@@ -66,6 +66,24 @@ void ctrl_bs_handler(int dummy);
 
 char *homedir = "/home/kurt/";
 
+static void mkpath(const char *dir) {
+        char tmp[256];
+        char *p = NULL;
+        size_t len;
+ 
+        snprintf(tmp, sizeof(tmp),"%s",dir);
+        len = strlen(tmp);
+        if(tmp[len - 1] == '/')
+                tmp[len - 1] = 0;
+        for(p = tmp + 1; *p; p++)
+                if(*p == '/') {
+                        *p = 0;
+                        mkdir(tmp, S_IRWXU);
+                        *p = '/';
+                }
+        mkdir(tmp, S_IRWXU);
+}
+
 int main (int argc, char **argv) {
 	FILE *fp;				// File pointer
 
@@ -238,11 +256,11 @@ fprintf(stderr, "fname: %s\n", fname);
 		/* Open files, check for erasures, read in data/coding */	
 		for (i = 1; i <= k; i++) {
 			sprintf(fname, "%s%s%s_k%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
-fprintf(stderr, "fname2: %s\n", fname);
-fprintf(stderr, "cs1: %s\n", cs1);
+//fprintf(stderr, "fname2: %s\n", fname);
+//fprintf(stderr, "cs1: %s\n", cs1);
 //fprintf(stderr, "md: %d\n", md);
 //fprintf(stderr, "i: %d\n", i);
-fprintf(stderr, "cs2: %s\n\n", cs2);
+//fprintf(stderr, "cs2: %s\n\n", cs2);
 			fp = fopen(fname, "rb");
 			if (fp == NULL) {
 				erased[i-1] = 1;
@@ -265,12 +283,12 @@ fprintf(stderr, "cs2: %s\n\n", cs2);
 			}
 		}
 		for (i = 1; i <= m; i++) {
-			sprintf(fname, "%s%s%s_k%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
-fprintf(stderr, "fname3: %s\n", fname);
-fprintf(stderr, "cs1: %s\n", cs1);
+			sprintf(fname, "%s%s%s_m%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
+//fprintf(stderr, "fname3: %s\n", fname);
+//fprintf(stderr, "cs1: %s\n", cs1);
 //fprintf(stderr, "md: %d\n", md);
 //fprintf(stderr, "i: %d\n", i);
-fprintf(stderr, "cs2: %s\n\n", cs2);
+//fprintf(stderr, "cs2: %s\n\n", cs2);
 				fp = fopen(fname, "rb");
 			if (fp == NULL) {
 				erased[k+(i-1)] = 1;
@@ -328,11 +346,16 @@ fprintf(stderr, "cs2: %s\n\n", cs2);
 	
 		/* Create decoded file */
 		sprintf(fname, "%s%s/%s%s", homedir, "SRDFS/Decoded", cs1, cs2);
-fprintf(stderr, "fname4: %s\n", fname);
-fprintf(stderr, "cs1: %s\n", cs1);
+//fprintf(stderr, "fname4: %s\n", fname);
+//fprintf(stderr, "cs1: %s\n", cs1);
 //fprintf(stderr, "md: %d\n", md);
 //fprintf(stderr, "i: %d\n", i);
-fprintf(stderr, "cs2: %s\n\n", cs2);
+//fprintf(stderr, "cs2: %s\n\n", cs2);
+		char *decodeddir;
+		decodeddir = (char *)malloc(sizeof(char)*100);
+		strcpy(decodeddir, homedir);
+		strcat(decodeddir, "SRDFS/Decoded/");
+		mkpath(decodeddir);
 		if (n == 1) {
 			fp = fopen(fname, "wb");
 		}

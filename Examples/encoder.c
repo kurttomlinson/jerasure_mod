@@ -134,6 +134,7 @@ int main (int argc, char **argv) {
 	char *curdir;
 	char *metadir;
 	char *scatterdir;
+	char *inputpath;
 	
 	/* Timing variables */
 	struct timeval t1, t2, t3, t4;
@@ -339,38 +340,43 @@ int main (int argc, char **argv) {
 	strcpy(metadir, homepath); // "/home/kurt/"
 	strcat(metadir, "SRDFS/Metadata");
 	strcat(metadir, argv[8]);
-	fprintf(stderr, "%s\n", metadir);
+	fprintf(stderr, "metadir: %s\n", metadir);
 	mkpath(metadir);
 	
 	scatterdir = (char*)malloc(sizeof(char)*1000);
 	strcpy(scatterdir, homepath); // "/home/kurt/"
 	strcat(scatterdir, "SRDFS/Scatter/");
-	fprintf(stderr, "%s\n", scatterdir);
+	fprintf(stderr, "scatterdir: %s\n", scatterdir);
 	mkpath(scatterdir);
 
 	getcwd(curdir, 1000);
 
-        if (argv[1][0] != '-') {
-
-		/* Open file and error check */
-		fp = fopen(argv[1], "rb");
-		if (fp == NULL) {
-			fprintf(stderr,  "Unable to open file.\n");
-			exit(0);
-		}
+	inputpath = (char*)malloc(sizeof(char)*1000);
+	strcpy(inputpath, homepath); // "/home/kurt/"
+	strcat(inputpath, "SRDFS/Encode/");
+	strcat(inputpath, argv[1]);
+	fprintf(stderr, "inputpath: %s\n", inputpath);
 	
-		/* Create Coding directory */
-/* 		i = mkdir("Coding", S_IRWXU);
-		if (i == -1 && errno != EEXIST) {
-			fprintf(stderr, "Unable to create Coding directory.\n");
-			exit(0);
-		} */
-	
-		/* Determine original size of file */
-		stat(argv[1], &status);	
-		size = status.st_size;
+        if (inputpath[0] != '-') {
+			/* Open file and error check */	
+			fp = fopen(inputpath, "rb");
+			if (fp == NULL) {
+				fprintf(stderr,  "Unable to open file.\n");
+				exit(0);
+			}
+		
+			/* Create Coding directory */
+	/* 		i = mkdir("Coding", S_IRWXU);
+			if (i == -1 && errno != EEXIST) {
+				fprintf(stderr, "Unable to create Coding directory.\n");
+				exit(0);
+			} */
+		
+			/* Determine original size of file */
+			stat(inputpath, &status);	
+			size = status.st_size;
         } else {
-        	if (sscanf(argv[1]+1, "%d", &size) != 1 || size <= 0) {
+        	if (sscanf(inputpath+1, "%d", &size) != 1 || size <= 0) {
                 	fprintf(stderr, "Files starting with '-' should be sizes for randomly created input\n");
 			exit(1);
 		}
@@ -421,27 +427,27 @@ int main (int argc, char **argv) {
 	}
 	
 	/* Break inputfile name into the filename and extension */	
-	s1 = (char*)malloc(sizeof(char)*(strlen(argv[1])+10));
-	s2 = strrchr(argv[1], '/');
+	s1 = (char*)malloc(sizeof(char)*(strlen(inputpath)+10));
+	s2 = strrchr(inputpath, '/');
 	if (s2 != NULL) {
 		s2++;
 		strcpy(s1, s2);
 	}
 	else {
-		strcpy(s1, argv[1]);
+		strcpy(s1, inputpath);
 	}
 	s2 = strchr(s1, '.');
 	if (s2 != NULL) {
 		*s2 = '\0';
 	}
-	fname = strchr(argv[1], '.');
-	s2 = (char*)malloc(sizeof(char)*(strlen(argv[1])+5));
+	fname = strchr(inputpath, '.');
+	s2 = (char*)malloc(sizeof(char)*(strlen(inputpath)+5));
 	if (fname != NULL) {
 		strcpy(s2, fname);
 	}
 	
 	/* Allocate for full file name */
-	fname = (char*)malloc(sizeof(char)*(strlen(argv[1])+strlen(curdir)+10));
+	fname = (char*)malloc(sizeof(char)*(strlen(inputpath)+strlen(curdir)+10));
 	sprintf(temp, "%d", k);
 	md = strlen(temp);
 	
@@ -595,17 +601,10 @@ int main (int argc, char **argv) {
 	}
 
 	/* Create metadata file */
-        if (fp != NULL) {
-		
-	fprintf(stderr, "%s\n", metadir);
-	
-	fprintf(stderr, "%s\n", s1);
-	
-	fprintf(stderr, "%s\n", s2);
-	
+        if (fp != NULL) {	
 		sprintf(fname, "%s%s%s_meta.txt", metadir, s1,s2);
 		fp2 = fopen(fname, "wb");
-		fprintf(fp2, "%s\n", argv[1]);
+		fprintf(fp2, "%s\n", inputpath);
 		fprintf(fp2, "%d\n", size);
 		fprintf(fp2, "%d %d %d %d %d\n", k, m, w, packetsize, buffersize);
 		fprintf(fp2, "%s\n", argv[4]);
