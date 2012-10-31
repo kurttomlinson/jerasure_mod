@@ -41,7 +41,7 @@ DECODER NOTES
 ./decoder FullMetadataPath
 decoder /kurt/foo/ECE3041.zip
 
-This program needs the full path to the metadata file. It expects the pieces of the file to have been placed in "~/SRDFS/Gather/". The decoded file is placed in "~/SRDFS/Decoded/"
+This program needs the full path to the metadata file. It expects the pieces of the file to have been placed in "~/SRDFS/Gathered/". The decoded file is placed in "~/SRDFS/Decoded/"
 
 
 
