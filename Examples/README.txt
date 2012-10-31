@@ -13,6 +13,20 @@ DEMO STEPS
 
 
 
+INSTALLATION STEPS
+------------------
+1) Clone jerasure_mod from GitHub to ~/ECE-6102/jerasure_mod/
+2) Execute:
+	cd ~/ECE-6102/jerasure_mod/Examples
+3) Execute:
+	make
+4) Open ~/.profile in a text editor.
+5) Add the line below to the end of the file.
+	PATH="$PATH:~/ECE-6102/jerasure_mod/Examples"
+6) Log out and log back in.
+
+
+
 ENCODER NOTES
 -------------
 ./encoder inputFile #dataFiles #redundantFiles codingTechnique GF(2^x)
