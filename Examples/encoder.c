@@ -562,7 +562,7 @@ int main (int argc, char **argv) {
 			if (fp == NULL) {
 				bzero(data[i-1], blocksize);
  			} else {
-				sprintf(fname, "%s%s_k%0*d%s", scatterdir, s1, md, i, s2);
+				sprintf(fname, "%s%s%s.k%0*d", scatterdir, s1, s2, md, i);
 				if (n == 1) {
 					fp2 = fopen(fname, "wb");
 				}
@@ -578,7 +578,7 @@ int main (int argc, char **argv) {
 			if (fp == NULL) {
 				bzero(data[i-1], blocksize);
  			} else {
-				sprintf(fname, "%s%s_m%0*d%s", scatterdir, s1, md, i, s2);
+				sprintf(fname, "%s%s%s.m%0*d", scatterdir, s1, s2, md, i);
 				if (n == 1) {
 					fp2 = fopen(fname, "wb");
 				}
@@ -602,7 +602,7 @@ int main (int argc, char **argv) {
 
 	/* Create metadata file */
         if (fp != NULL) {	
-		sprintf(fname, "%s%s%s_meta.txt", metadir, s1,s2);
+		sprintf(fname, "%s%s%s.meta", metadir, s1,s2);
 		fp2 = fopen(fname, "wb");
 		fprintf(fp2, "%s\n", inputpath);
 		fprintf(fp2, "%d\n", size);

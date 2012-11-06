@@ -162,12 +162,12 @@ int main (int argc, char **argv) {
 
 	
 	/* Read in parameters from metadata file */
-	sprintf(fname, "%s/Coding/%s_meta.txt", curdir, cs1);
+	sprintf(fname, "%s/Coding/%s.meta", curdir, cs1);
 	fprintf(stderr, "Metadata file: %s\n", argv[1]);
 	strcpy(fname, homedir);
 	strcat(fname, "SRDFS/Metadata");
 	strcat(fname, argv[1]);
-	strcat(fname, "_meta.txt");
+	strcat(fname, ".meta");
 
 fprintf(stderr, "fname: %s\n", fname);
 
@@ -255,7 +255,7 @@ fprintf(stderr, "fname: %s\n", fname);
 		numerased = 0;
 		/* Open files, check for erasures, read in data/coding */	
 		for (i = 1; i <= k; i++) {
-			sprintf(fname, "%s%s%s_k%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
+			sprintf(fname, "%s%s%s%s.k%0*d", homedir, "SRDFS/Gathered/", cs1, cs2, md, i);
 //fprintf(stderr, "fname2: %s\n", fname);
 //fprintf(stderr, "cs1: %s\n", cs1);
 //fprintf(stderr, "md: %d\n", md);
@@ -283,7 +283,7 @@ fprintf(stderr, "fname: %s\n", fname);
 			}
 		}
 		for (i = 1; i <= m; i++) {
-			sprintf(fname, "%s%s%s_m%0*d%s", homedir, "SRDFS/Gathered/", cs1, md, i, cs2);
+			sprintf(fname, "%s%s%s%s.m%0*d", homedir, "SRDFS/Gathered/", cs1, cs2, md, i);
 //fprintf(stderr, "fname3: %s\n", fname);
 //fprintf(stderr, "cs1: %s\n", cs1);
 //fprintf(stderr, "md: %d\n", md);
