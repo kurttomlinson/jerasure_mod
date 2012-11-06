@@ -32,7 +32,7 @@ ENCODER NOTES
 ./encoder inputFile #dataFiles #redundantFiles codingTechnique GF(2^x)
 encoder ECE3041.zip 10 4 reed_sol_van 8 500 0 "/kurt/foo/"
 
-The input file is expected to be inside ~/SRDFS/Encode. This program puts the encoded files in "~/SRDFS/Scatter". If the input file is called "ECE3041.zip", then data files will be called "ECE3041_kX.zip" where X is the file's number. Redundant data files will be called "ECE3041_mX.zip" where X is the file's number. Metadata about the file (number of data files, number of redundant files, encoding scheme, field, etc.) is stored in a file called "ECE3041_meta.txt" in "~/SRDFS/Metadata/kurt/foo/ECE3041_meta.txt"
+The input file is expected to be inside ~/SRDFS/Encode. This program puts the encoded files in "~/SRDFS/Scatter". If the input file is called "ECE3041.zip", then data files will be called "ECE3041.zip.kX" where X is the file's number. Redundant data files will be called "ECE3041.zip.mX" where X is the file's number. Metadata about the file (number of data files, number of redundant files, encoding scheme, field, etc.) is stored in a file called "ECE3041.zip.meta" in "~/SRDFS/Metadata/kurt/foo/ECE3041.zip.meta"
 
 
 
