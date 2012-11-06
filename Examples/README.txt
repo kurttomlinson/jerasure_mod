@@ -3,8 +3,8 @@ DEMO STEPS
 1) Create path "~/SRDFS/Encode".
 2) Place file to encode in "~/SRDFS/Encode".
 3) Execute:
-	encoder README.txt 3 3 reed_sol_van 8 1 0 "/kurt/foo/"
-	encoder ECE3041.zip 3 3 reed_sol_van 8 500 0 "/kurt/foo/"
+	encoder README.txt 10 3 reed_sol_van 8 1 0 "/kurt/foo/"
+	encoder ECE3041.zip 10 3 reed_sol_van 8 500 0 "/kurt/foo/"
 4) Create path "~/SRDFS/Gathered".
 5) Copy m pieces of the file from "~/SRDFS/Scatter" to "~/SRDFS/Gathered".
 6) Execute
