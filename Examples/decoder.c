@@ -154,10 +154,13 @@ int main (int argc, char **argv) {
 	cs2 = strchr(cs1, '.');
 	if (cs2 != NULL) {
 		*cs2 = '\0';
-	}	
+	}
 	cs2 = (char*)malloc(sizeof(char)*strlen(argv[1]));
 	fname = strchr(argv[1], '.');
-	strcpy(cs2, fname);
+	if (fname != NULL)
+	{
+		strcpy(cs2, fname);
+	}
 	fname = (char *)malloc(sizeof(char*)*(100+strlen(argv[1])+10));
 
 	
