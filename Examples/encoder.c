@@ -68,7 +68,7 @@ enum Coding_Technique method;
 int is_prime(int w);
 void ctrl_bs_handler(int dummy);
 
-char *homepath = "/home/kurt/";
+char *homepath = "/";
 
 static void mkpath(const char *dir) {
         char tmp[256];

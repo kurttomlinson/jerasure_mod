@@ -64,7 +64,7 @@ int readins, n;
 /* Function prototype */
 void ctrl_bs_handler(int dummy);
 
-char *homedir = "/home/kurt/";
+char *homedir = "/";
 
 static void mkpath(const char *dir) {
         char tmp[256];
